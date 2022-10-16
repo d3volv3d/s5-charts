@@ -19,13 +19,13 @@
         fill: var(--chart-blue);
     }
 
-    // .axis--x .tick:last-of-type text {
-    //     text-anchor: end;
-    // }
+    .axis--x .tick:last-of-type text {
+        text-anchor: end;
+    }
 
-    // .axis--x .tick:first-of-type text {
-    //     text-anchor: start;
-    // }
+    .axis--x .tick:first-of-type text {
+        text-anchor: start;
+    }
 
     // .axis__x-secondary path.domain, .axis__x-secondary .tick line {
     //     display: none;
@@ -95,95 +95,95 @@
     }
 
 
-    .tooltipRight {
-        &:after {
-            border-width: 4px 0 4px 8px;
-            border-color: transparent transparent transparent var(--white);
-            left: 100%;
-            top: calc(50% - 4px);
-        }
-        &:before {
-            border-width: 5px 0 5px 10px;
-            border-color: transparent transparent transparent var(--grey-dark);
-            left: 100%;
-            top: calc(50% - 5px);
-        }
-    }
-
-    .tooltipLeft {
-        &:after {
-            border-width: 4px 8px 4px 0;
-            border-color: transparent var(--white) transparent transparent;    
-            right: 100%;
-            top: calc(50% - 4px);
-        }
-        &:before {
-            border-width: 5px 10px 5px 0;
-            border-color: transparent var(--grey-dark) transparent transparent;    
-            right: 100%;
-            top: calc(50% - 5px);
-        }
-    }
-
-    // .tooltipLeft:before {
-    //     left: -1px;
-    //     bottom: -11px;
-    //     border-width: 11px 11px 0 0;
-    //     border-color: var(--grey-dark) transparent transparent transparent;
-    // }
-
-    // .tooltipLeft:after {
-    //     left: 0px;
-    //     bottom: -9px;
-    //     border-width: 10px 10px 0 0;
-    //     border-color: var(--white) transparent transparent transparent;
-    // }
-
-    // .tooltipRight:before {
-    //     right: -1px;
-    //     bottom: -11px;
-    //     border-width: 0 11px 11px 0;
-    //     border-color: transparent var(--grey-dark) transparent transparent;
-    // }
-
-    // .tooltipRight:after {
-    //     right: 0px;
-    //     bottom: -9px;
-    //     border-width: 0 10px 10px 0;
-    //     border-color: transparent var(--white) transparent transparent;
-    // }
-
-    // .tipBottom[class~="tooltipRight"] {
-    //     &:before {
-    //         right: -1px;
-    //         top: -11px;
-    //         border-width: 0 0 11px 11px;
-    //         border-color: transparent transparent var(--grey-dark) transparent;
-    //     }
-
+    // .tooltipRight {
     //     &:after {
-    //         right: 0px;
-    //         top: -9px;
-    //         border-width: 0 0 10px 10px;
-    //         border-color: transparent transparent var(--white) transparent;
-    //     }
-    // }
-
-    // .tipBottom[class~="tooltipLeft"] {
-    //     &:before {
-    //         left: -1px;
-    //         top: -11px;
-    //         border-width: 11px 0 0 11px;
-    //         border-color: transparent transparent transparent var(--grey-dark);
-    //     }
-
-    //     &:after {
-    //         left: 0px;
-    //         top: -9px;
-    //         border-width: 10px 0 0 10px;
+    //         border-width: 4px 0 4px 8px;
     //         border-color: transparent transparent transparent var(--white);
+    //         left: 100%;
+    //         top: calc(50% - 4px);
+    //     }
+    //     &:before {
+    //         border-width: 5px 0 5px 10px;
+    //         border-color: transparent transparent transparent var(--grey-dark);
+    //         left: 100%;
+    //         top: calc(50% - 5px);
     //     }
     // }
+
+    // .tooltipLeft {
+    //     &:after {
+    //         border-width: 4px 8px 4px 0;
+    //         border-color: transparent var(--white) transparent transparent;    
+    //         right: 100%;
+    //         top: calc(50% - 4px);
+    //     }
+    //     &:before {
+    //         border-width: 5px 10px 5px 0;
+    //         border-color: transparent var(--grey-dark) transparent transparent;    
+    //         right: 100%;
+    //         top: calc(50% - 5px);
+    //     }
+    // }
+
+    .tooltipLeft:before {
+        left: -1px;
+        bottom: -11px;
+        border-width: 11px 11px 0 0;
+        border-color: var(--grey-dark) transparent transparent transparent;
+    }
+
+    .tooltipLeft:after {
+        left: 0px;
+        bottom: -9px;
+        border-width: 10px 10px 0 0;
+        border-color: var(--white) transparent transparent transparent;
+    }
+
+    .tooltipRight:before {
+        right: -1px;
+        bottom: -11px;
+        border-width: 0 11px 11px 0;
+        border-color: transparent var(--grey-dark) transparent transparent;
+    }
+
+    .tooltipRight:after {
+        right: 0px;
+        bottom: -9px;
+        border-width: 0 10px 10px 0;
+        border-color: transparent var(--white) transparent transparent;
+    }
+
+    .tipBottom[class~="tooltipRight"] {
+        &:before {
+            right: -1px;
+            top: -11px;
+            border-width: 0 0 11px 11px;
+            border-color: transparent transparent var(--grey-dark) transparent;
+        }
+
+        &:after {
+            right: 0px;
+            top: -9px;
+            border-width: 0 0 10px 10px;
+            border-color: transparent transparent var(--white) transparent;
+        }
+    }
+
+    .tipBottom[class~="tooltipLeft"] {
+        &:before {
+            left: -1px;
+            top: -11px;
+            border-width: 11px 0 0 11px;
+            border-color: transparent transparent transparent var(--grey-dark);
+        }
+
+        &:after {
+            left: 0px;
+            top: -9px;
+            border-width: 10px 0 0 10px;
+            border-color: transparent transparent transparent var(--white);
+        }
+    }
 
     .csTip h2 { 
         font-size: var(--font-size-16); 

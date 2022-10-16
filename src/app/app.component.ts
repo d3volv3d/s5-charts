@@ -18,8 +18,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   columnData: Array<object> = [];
   column2Data: Array<object> = [];
-  barData: Subject<any> = new Subject();
-  bar2Data: Subject<any> = new Subject();
+  
+  barData: Array<object> = [];
+  bar2Data: Array<object> = [];
+
+  chartData: Subject<any> = new Subject();
+  chart2Data: Subject<any> = new Subject();
+  chart3Data: Subject<any> = new Subject();
+  chart4Data: Subject<any> = new Subject();
 
   showAxis: Subject<any> = new Subject();
   axisState = false;
@@ -42,6 +48,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   pushButton() {
     this.genBarData();
     this.genBar2Data();
+    this.genColData();
+    this.genCol2Data();
   }
 
   toggleView() {
@@ -49,21 +57,53 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showAxis.next(this.axisState);
   }
 
-  genBarData() {
+  genColData() {
     this.columnData = [];
     for (let i = 0; i < (8 + Math.floor(Math.random() * 10)); i++) {
       this.columnData.push({ name: `${this.names[i]}`, value: Math.floor(Math.random() * 5000) });
     }
-    this.barData.next(this.columnData);
+    this.chartData.next(this.columnData);
   }
 
-  genBar2Data() {
+  genCol2Data() {
     this.column2Data = [];
     for (let i = 0; i < (8 + Math.floor(Math.random() * 10)); i++) {
       this.column2Data.push({ name: `${this.uuid.uuid()}`, value: Math.floor(Math.random() * 10000) });
     }
-    this.bar2Data.next(this.column2Data);
+    this.chart2Data.next(this.column2Data);
   }
+
+  genBarData() {
+    this.barData = [];
+    for (let i = 0; i < 6; i++) {
+      this.barData.push({ name: `${this.names[i]}`, value: Math.floor(Math.random() * 5000) });
+    }
+    this.chart3Data.next(this.barData);
+  }
+
+  genBar2Data() {
+    this.bar2Data = [];
+    for (let i = 0; i < 6; i++) {
+      this.bar2Data.push({ name: `${this.uuid.uuid()}`, value: Math.floor(Math.random() * 10000) });
+    }
+    this.chart4Data.next(this.bar2Data);
+  }
+
+  // genColData() {
+  //   this.barData = [];
+  //   for (let i = 0; i < (8 + Math.floor(Math.random() * 10)); i++) {
+  //     this.columnData.push({ name: `${this.names[i]}`, value: Math.floor(Math.random() * 5000) });
+  //   }
+  //   this.chart3Data.next(this.columnData);    
+  // }
+
+  // genCol2Data() {
+  //   this.bar2Data = [];
+  //   for (let i = 0; i < (8 + Math.floor(Math.random() * 10)); i++) {
+  //     this.columnData.push({ name: `${this.names[i]}`, value: Math.floor(Math.random() * 5000) });
+  //   }
+  //   this.chart3Data.next(this.columnData);    
+  // }
 
 }
 

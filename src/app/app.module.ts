@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BarchartComponent } from './barchart/barchart.component';
+import { ColumnchartComponent } from './columnchart/columnchart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BarchartComponent
+    BarchartComponent,
+    ColumnchartComponent
   ],
   imports: [
     BrowserModule,

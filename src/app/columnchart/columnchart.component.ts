@@ -8,12 +8,12 @@ import * as $ from 'jquery';
 // import { ViewEncapsulation } from '@angular/compiler';
 
 @Component({
-  selector: 'app-barchart',
-  templateUrl: './barchart.component.html',
-  styleUrls: ['./barchart.component.scss'],
+  selector: 'app-columnchart',
+  templateUrl: './columnchart.component.html',
+  styleUrls: ['./columnchart.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BarchartComponent implements OnInit {
+export class ColumnchartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   chartData: any;
   chart: any;
@@ -23,29 +23,29 @@ export class BarchartComponent implements OnInit {
   update = false;
 
   chartWidth = 0;
-  chartHeight = 330;
+  chartHeight = 250;
   height = 0;
   width = 0;
 
   chartOpts = { 
-    top: 20, 
+    top: 2, 
     right: 0, 
-    bottom: 0, 
+    bottom: 20, 
     left: 20, 
     bottomBuffer: 0, 
     leftBuffer: 0,
     round: 10,
     dur: 300,
-    trunc: 100,
+    trunc: 8,
   };
 
 
-  yArray = [];
-  xMin = 0;
-  xMax = 1;
+  xArray = [];
+  yMin = 0;
+  yMax = 1;
 
   yScale: any;
-  xGrid: any;
+  yGrid: any;
   xScale: any;
   xAxis: any;
   yAxis: any;
@@ -132,30 +132,25 @@ export class BarchartComponent implements OnInit {
 
   drawChart(data: Array<object>) {
 
-    const shim = (this.yScale.step() - this.yScale.bandwidth()) / 2;
-
     this.chart.append('g')
       .attr('class', 'grid gridNoNum')
-      .attr('id', `grid__x-${this.hash}`)
+      .attr('id', `grid__y-${this.hash}`)
       .attr('transform', `translate(${this.chartOpts.left},${this.chartOpts.top})`)
-      .call(this.xGrid);
+      .call(this.yGrid);
 
     this.chart.append('g')
       .attr('class', 'axis axis--y')
       .attr('id', `axis__y-${this.hash}`)
-      .attr('transform', `translate(${this.chartOpts.left},${this.chartOpts.top + this.yScale.step() - this.yScale.bandwidth() + shim} )`)
-      .attr('opacity', () => {
-        return (!this.axisState) ? 0 : 1;
-      })
+      .attr('transform', `translate(${this.chartOpts.left},${this.chartOpts.top})`)
       .call(this.yAxis)
 
     this.chart.append('g')
       .attr('class', 'axis axis--x')
       .attr('id', `axis__x-${this.hash}`)
-      .attr('transform', `translate(${this.chartOpts.left},${this.chartOpts.top})`)
-      // .attr('opacity', () => {
-      //   return (!this.axisState) ? 0 : 1;
-      // })
+      .attr('transform', `translate(${this.chartOpts.left},${this.height})`)
+      .attr('opacity', () => {
+        return (!this.axisState) ? 0 : 1;
+      })
       .call(this.xAxis);
 
     this.columns = this.chart.append('g')
@@ -166,10 +161,10 @@ export class BarchartComponent implements OnInit {
       .data(this.chartData)
       .enter().append('rect')
       .attr('class', `column-${this.hash}`)
-      .attr('x', 0)
-      .attr('width', (d: any) => this.xScale(d.value))
-      .attr('height', this.yScale.bandwidth())
-      .attr('y', (d: any) => this.yScale(d.name))
+      .attr('x', (d: any) => this.xScale(d.name))
+      .attr('width', this.xScale.bandwidth())
+      .attr('y', (d: any) => this.yScale(d.value))
+      .attr('height', (d: any) =>  this.height - this.yScale(d.value))
       .attr('fill-opacity', .25)
       .attr('rx', (d: any) => {
         return this.chartOpts.round;
@@ -185,24 +180,22 @@ export class BarchartComponent implements OnInit {
         this.waxOff(event, d);
       }));
 
-    console.log(this.yScale.step(), this.yScale.bandwidth(), this.yScale.step() - this.yScale.bandwidth())
 
-
-    // this.mousePerLine = this.chart.append('g')
-    //   .style('visibility', 'hidden')
-    //   .attr('class', 'mouse-per-line');
+    this.mousePerLine = this.chart.append('g')
+      .style('visibility', 'hidden')
+      .attr('class', 'mouse-per-line');
   
-    // this.mousePerLine.append('line') // create vertical line to follow mouse
-    //   .attr('class', 'mouse-line-back hover-line')
-    //   .attr('id', `mouse-line-back-${this.hash}`)
-    //   .attr('y1', (0 + this.chartOpts.top))
-    //   .attr('y2', this.height);
+    this.mousePerLine.append('line') // create vertical line to follow mouse
+      .attr('class', 'mouse-line-back hover-line')
+      .attr('id', `mouse-line-back-${this.hash}`)
+      .attr('y1', (0 + this.chartOpts.top))
+      .attr('y2', this.height);
 
-    // this.mousePerLine.append('line') // create vertical line to follow mouse
-    //   .attr('class', 'mouse-line hover-line')
-    //   .attr('id', `mouse-line-${this.hash}`)
-    //   .attr('y1', (0 + this.chartOpts.top))
-    //   .attr('y2', this.height);
+    this.mousePerLine.append('line') // create vertical line to follow mouse
+      .attr('class', 'mouse-line hover-line')
+      .attr('id', `mouse-line-${this.hash}`)
+      .attr('y1', (0 + this.chartOpts.top))
+      .attr('y2', this.height);
 
 
 
@@ -210,41 +203,42 @@ export class BarchartComponent implements OnInit {
   }
 
   updateChart(data: Array<object>) {
-
-    const shim = (this.yScale.step() - this.yScale.bandwidth()) / 2;
     
-    this.chart.select(`#grid__x-${this.hash}`)
+    this.chart.select(`#grid__y-${this.hash}`)
       .transition().duration(this.chartOpts.dur)
       .attr('transform', `translate(${this.chartOpts.left},${this.chartOpts.top})`)
-      .call(this.xGrid);
+      .call(this.yGrid);
 
     this.chart.select(`#axis__y-${this.hash}`)
       .transition().duration(this.chartOpts.dur)
-      .attr('transform', `translate(${this.chartOpts.left},${this.chartOpts.top + this.yScale.step() - this.yScale.bandwidth() + shim} )`)
-      .attr('opacity', () => {
-        return (!this.axisState) ? 0 : 1;
-      })
+      .attr('transform', `translate(${this.chartOpts.left},${this.chartOpts.top})`)
       .call(this.yAxis);
 
     this.chart.select(`#axis__x-${this.hash}`)
       .transition().duration(this.chartOpts.dur)
-      .attr('transform', `translate(${this.chartOpts.left},${this.chartOpts.top})`)
-      // .attr('opacity', () => {
-      //   return (!this.axisState) ? 0 : 1;
-      // })
+      .attr('transform', `translate(${this.chartOpts.left},${this.height + this.chartOpts.top})`)
+      .attr('opacity', () => {
+        return (!this.axisState) ? 0 : 1;
+      })
       .call(this.xAxis);
+
+    this.chart.select(`#mouse-line-${this.hash}`)
+      .transition().duration(this.chartOpts.dur)
+      .attr('y2', this.height);
+    
+    this.chart.select(`#mouse-line-${this.hash}`)
+      .transition().duration(this.chartOpts.dur)
+      .attr('y2', this.height);
 
     const fatso = this.columns.selectAll(`.column-${this.hash}`)
       .data(this.chartData)
       .join(
         (enter: any) => enter.append('rect')
           .attr('class', `column-${this.hash}`)
-          .attr('x', 0)
-          .attr('width', (d: any) => this.xScale(d.value))
-          .attr('height', (d: any) => {
-            return (!this.axisState) ? this.yScale.step() / 2 : this.yScale.bandwidth();
-          })
-          .attr('y', (d: any) => this.yScale(d.name))
+          .attr('x', (d: any) => this.xScale(d.name))
+          .attr('width', this.xScale.bandwidth())
+          .attr('y', (d: any) => this.yScale(d.value))
+          .attr('height', (d: any) =>  this.height - this.yScale(d.value))
           .attr('fill-opacity', .25)
           .attr('rx', (d: any) => {
             return this.chartOpts.round;
@@ -261,13 +255,10 @@ export class BarchartComponent implements OnInit {
           })),
         (update: any) => update
           .transition().duration(this.chartOpts.dur)
-            .attr('x', 0)
-            .attr('width', (d: any) => this.xScale(d.value))
-            .attr('height', (d: any) => {
-              console.log(this.yScale.step(), this.yScale.bandwidth())
-              return (this.axisState) ? this.yScale.step() / 2 : this.yScale.bandwidth();
-            })
-            .attr('y', (d: any) => this.yScale(d.name))
+            .attr('x', (d: any) => this.xScale(d.name))
+            .attr('width', this.xScale.bandwidth())
+            .attr('y', (d: any) => this.yScale(d.value))
+            .attr('height', (d: any) =>  this.height - this.yScale(d.value))
       );
   }
 
@@ -275,21 +266,21 @@ export class BarchartComponent implements OnInit {
     const _this = d3.select(event.target);
     _this.transition().duration(this.chartOpts.dur).attr('fill-opacity', .75);
 
-    // this.mousePerLine
-    // .attr('transform', 'translate(' + (this.xScale(d.name) + (this.xScale.bandwidth() / 2) + this.chartOpts.left) + ',0)')
-    // .style('visibility', 'visible');
+    this.mousePerLine
+    .attr('transform', 'translate(' + (this.xScale(d.name) + (this.xScale.bandwidth() / 2) + this.chartOpts.left) + ',0)')
+    .style('visibility', 'visible');
 
-    this.justTheTip(event, d)
+    this.justTheTip(d)
   }
 
   waxOff(event: any, d: any) {
     const _this = d3.select(event.target);
     _this.transition().duration(100).attr('fill-opacity', .25);
-    // this.mousePerLine.style('visibility', 'hidden');
+    this.mousePerLine.style('visibility', 'hidden');
     $('#' + this.thisTip).css({ visibility: 'hidden' });
   }
 
-  justTheTip(event: any, d: any) {
+  justTheTip(d: any) {
     const toolTipText = ``;
 
     let toolTipTextItems = `
@@ -302,8 +293,7 @@ export class BarchartComponent implements OnInit {
     $('#' + this.thisTip + ' #toolTipTextItems').html(toolTipTextItems);
 
     // const target = $('.mouse-line')[0].getBoundingClientRect();
-    // const target = $(`#mouse-line-${this.hash}`)[0].getBoundingClientRect();
-    const target = $(event.target)[0].getBoundingClientRect();
+    const target = $(`#mouse-line-${this.hash}`)[0].getBoundingClientRect();
 
     const cxBox = $('#' + this.thisID)[0].getBoundingClientRect();
     // const point = $(target)[0].getBoundingClientRect();
@@ -318,7 +308,6 @@ export class BarchartComponent implements OnInit {
 
     let posTipY = 0;
     let posTipX = 0;
-
     let tipLeft: any = 'auto';
     let tipRight: any = 'auto';
     let klass = 'tooltipLeft';
@@ -331,8 +320,8 @@ export class BarchartComponent implements OnInit {
       klass = 'tooltipRight';
     }
 
-    posTipY = target.top - cxBox.top - heightTip - 12;
-    // posTipY = target.top - cxBox.top;
+    // posTipY = target.top - cxBox.top - heightTip - 12;
+    posTipY = target.top - cxBox.top;
 
 
 
@@ -349,8 +338,6 @@ export class BarchartComponent implements OnInit {
     //   $('#' + this.thisTip);
     // }
 
-    $(`#${this.thisTip}`).css({ top: posTipY });
-
 
     $('#' + this.thisTip).css({ visibility: 'visible' });
 
@@ -358,11 +345,11 @@ export class BarchartComponent implements OnInit {
 
   setChart(data: Array<object>) {
 
-    // data.sort((a: any,b: any) => b.value - a.value);
+    data.sort((a: any,b: any) => b.value - a.value);
 
     // this.yMin = d3.min(data, (d: any) => d.value);
-    this.xMax = d3.max(data, (d: any) => d.value);
-    this.yArray = data.map((d: any) => d.name) as any;
+    this.yMax = d3.max(data, (d: any) => d.value);
+    this.xArray = data.map((d: any) => d.name) as any;
 
     const update: any = d3.select(`#${this.thisID}`).selectAll('g');
     this.update = (update._groups[0].length > 0) ? true : false;
@@ -370,32 +357,27 @@ export class BarchartComponent implements OnInit {
     this.height = this.chartHeight - this.chartOpts.bottom - this.chartOpts.top;
     this.width = this.chartWidth - this.chartOpts.left - this.chartOpts.right;
 
-    this.xScale = d3.scaleLinear()
-      .range([0, this.width])
-      .domain([0, this.xMax])
-      .nice();
+    this.yScale = d3.scaleLinear()
+      .range([this.height, 0])
+      .domain([this.yMin, this.yMax]);
 
-    this.xGrid = d3.axisTop(this.xScale)
+    this.yGrid = d3.axisLeft(this.yScale)
       // tickFormat((v: any) => )
-      .tickSize(-this.height)
+      .tickSize(-this.width)
       .ticks(4);
 
-    this.xAxis = d3.axisTop(this.xScale)
+    this.yAxis = d3.axisLeft(this.yScale)
       .tickSize(0)
-      //.tickValues(this.xScale.ticks( 2 ).concat( this.xScale.domain()))
-      .ticks(1, 's')
-      .tickValues(this.xScale.domain())
-      // .tickFormat(((d: any) => 
+      .ticks(4, 's');
 
-      // ))
-      // .ticks(1, 's');
 
-    this.yScale = d3.scaleBand()
-      .domain(this.yArray)
-      .range([0,this.height])
+
+    this.xScale = d3.scaleBand()
+      .domain(this.xArray)
+      .range([0,this. width])
       .padding(0.2);
 
-    this.yAxis = d3.axisRight(this.yScale)
+    this.xAxis = d3.axisBottom(this.xScale)
       .tickFormat((v: any) => {
         const length = this.chartOpts.trunc;
         let string = v;
@@ -404,7 +386,7 @@ export class BarchartComponent implements OnInit {
         return string;
 
       })
-      .tickSize(0)
+      .tickSize(2)
       .tickSizeOuter(0)
       // .tickSize(0)
       // .tickSizeOuter(2)
@@ -420,4 +402,3 @@ export class BarchartComponent implements OnInit {
   }
 
 }
-
