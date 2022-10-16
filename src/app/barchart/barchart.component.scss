@@ -1,0 +1,173 @@
+.barchart-holder {
+
+    svg {
+        display: block;
+        font-family: 'Nunito', sans-serif;
+
+        .tick {
+            text {
+                font-family: var(--f-heading);
+                color: var(--grey-3c3c3c);
+            }
+        }
+    }
+
+    .columns {
+        stroke: var(--chart-blue);
+        stroke-width: 2px;
+        fill: var(--chart-blue);
+    }
+
+    // .axis--x .tick:last-of-type text {
+    //     text-anchor: end;
+    // }
+
+    // .axis--x .tick:first-of-type text {
+    //     text-anchor: start;
+    // }
+
+    // .axis__x-secondary path.domain, .axis__x-secondary .tick line {
+    //     display: none;
+    // }
+
+    .axis--y path.domain {
+        display: none;
+    }
+
+    .grid .tick line { 
+        stroke: var(--grey-lite); 
+        stroke-dasharray: 2,2;
+    }
+
+    .grid path.domain {
+        display: none;
+    }
+    
+    .gridNoNum text { 
+        display: none;
+    }
+
+    .hover-line, .gridZeroLine path {
+		fill: none;
+		stroke: var(--grey-3c3c3c);
+		stroke-width: 2px;
+		stroke-dasharray: 2,3;
+        pointer-events: none;
+    }
+
+    .csTip { 
+        pointer-events: none; 
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        z-index: 150; 
+        height: auto; 
+        padding: 1em; 
+        border: solid 1px var(--grey-dark); 
+        // opacity: 0; 
+        min-width: 100px; 
+        font-size: var(--font-size-12);
+        line-height: var(--font-size-12);
+        max-width: 350px;
+        color: var(--color);
+        background-color: var(--base);
+        border-color: var(--grey-dark);
+        // box-shadow: var(--boxShadow);
+        visibility: hidden;
+    }
+
+    .tooltipLeft:after, .tooltipLeft:before, .tooltipRight:after, .tooltipRight:before {
+        content: "";
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        position: absolute;
+    }
+
+    .tooltipLeft:before {
+        left: -1px;
+        bottom: -11px;
+        border-width: 11px 11px 0 0;
+        border-color: var(--grey-dark) transparent transparent transparent;
+    }
+
+    .tooltipLeft:after {
+        left: 0px;
+        bottom: -9px;
+        border-width: 10px 10px 0 0;
+        border-color: var(--base) transparent transparent transparent;
+    }
+
+    .tooltipRight:before {
+        right: -1px;
+        bottom: -11px;
+        border-width: 0 11px 11px 0;
+        border-color: transparent var(--grey-dark) transparent transparent;
+    }
+
+    .tooltipRight:after {
+        right: 0px;
+        bottom: -9px;
+        border-width: 0 10px 10px 0;
+        border-color: transparent var(--base) transparent transparent;
+    }
+
+    .tipBottom[class~="tooltipRight"] {
+        &:before {
+            right: -1px;
+            top: -11px;
+            border-width: 0 0 11px 11px;
+            border-color: transparent transparent var(--grey-dark) transparent;
+        }
+
+        &:after {
+            right: 0px;
+            top: -9px;
+            border-width: 0 0 10px 10px;
+            border-color: transparent transparent var(--base) transparent;
+        }
+    }
+
+    .tipBottom[class~="tooltipLeft"] {
+        &:before {
+            left: -1px;
+            top: -11px;
+            border-width: 11px 0 0 11px;
+            border-color: transparent transparent transparent var(--grey-dark);
+        }
+
+        &:after {
+            left: 0px;
+            top: -9px;
+            border-width: 10px 0 0 10px;
+            border-color: transparent transparent transparent var(--base);
+        }
+    }
+
+    .csTip h2 { 
+        font-size: var(--font-size-16); 
+        font-weight: 400; 
+        margin: 0; 
+        padding: 0 0 .1em 0;  
+        text-align: center; 
+        text-transform: capitalize;
+    }
+
+    .csTipText {
+        padding-bottom: 4px;
+        // border-bottom: dotted 1px $gray-d7;
+    }
+
+    #toolTipTextItems {       
+        td { 
+            // padding-top: 6px;
+            &:last-child {
+                text-align: right;
+                padding-left: 12px;
+                font-weight: var(--f-700);
+            }
+        }
+    }
+
+}
