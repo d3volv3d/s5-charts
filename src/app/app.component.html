@@ -1,7 +1,123 @@
+
+<!-- <nav id='navbarTop' *ngIf="isLoaded && user.currentRole.role !== 'Viewer'"  class="navbar navbar-expand-lg h-100 w-100 px-4 d-flex justify-content-between align-items-center">
+  <div class="d-flex h-100" (click)="trayService.closeTray()">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-label="Toggle navigation" [attr.aria-expanded]="!isCollapsed" (click)="isCollapsed = !isCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a *ngIf="isLoaded" [routerLink]="['/client/home']" id="navbar-logo__holder" class="d-flex align-items-center pe-4 me-4">
+      <img *ngIf="client.logoImage" id="navbar-logo" [src]="client.logoImage.url" />
+    </a>
+
+    <nav class="d-flex">
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/home']" [routerLinkActive]="['is-active']">
+        <i class="far fa-tachometer-alt pe-1"></i>
+        <span>Home</span>
+      </div>
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/members']" [routerLinkActive]="['is-active']">
+        <i class="far fa-users pe-1"></i>
+        <span>Membership</span>
+      </div>
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/companies']" [routerLinkActive]="['is-active']">
+        <i class="far fa-building pe-1"></i>
+        <span>Companies</span>
+      </div>
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/prompts']" [routerLinkActive]="['is-active']">
+        <i class="far fa-bullhorn pe-1"></i>
+        <span>Prompts</span>
+      </div>
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/stories']" [routerLinkActive]="['is-active']">
+        <i class="far fa-books pe-1"></i>
+        <span>Stories</span>
+      </div>
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/boards']" [routerLinkActive]="['is-active']">
+        <i class="far fa-th-list pe-1"></i>
+        <span>Boards</span>
+      </div>
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/requests']" [routerLinkActive]="['is-active']">
+        <i class="far fa-comment-alt-edit pe-1"></i>
+        <span>Requests</span>
+      </div>
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/activities/history']" [routerLinkActive]="['is-active']">
+        <i class="far fa-tasks pe-1"></i>
+        <span>Activities</span>
+      </div>
+      <div class="d-flex align-items-center h-100 me-4 navNew__item" [routerLink]="['/client/assets']" [routerLinkActive]="['is-active']">
+        <i class="far fa-folder-open pe-1"></i>
+        <span>Assets</span>
+      </div>
+    </nav>
+  </div>
+
+  <div>
+
+    <div class="d-flex align-items-center">
+      <div *ngIf="user && user.clientRoles.length > 1 && user.currentRole.role !== 'Viewer'" class="nav-item me-3">
+        <div dropdown class="s5-nav-dropdown dropdown-toggle dropdown" data-toggle="dropdown">
+          <i class="far fa-cog navNew__icon"></i>
+          <ul class="dropdown-menu dropdown-menu-force-right" aria-labelledby="simple-dropdown">
+            <li *ngFor="let role of user.clientRoles">
+              <a class="dropdown-item" [ngClass]="{active: role.ClientRole.id === user.currentRole.id}" (click)="switchToExisitingRole(role.ClientRole.id)" style="cursor: pointer;">{{ role.ClientRole.client.name }} ({{ role.ClientRole.role }})</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="user && user.superadmin" class="nav-item">
+        <div dropdown class="s5-nav-dropdown dropdown-toggle dropdown" data-toggle="dropdown">
+          <i class="fas fa-bars navNew__icon"></i>
+          <ul class="dropdown-menu dropdown-menu-force-right instance-dropdown" aria-labelledby="simple-dropdown">
+            <li *ngFor="let client of allClients">
+              <a class="dropdown-item" (click)="switchToNewRole(client)" style="cursor: pointer;">{{ client.name }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="user" class="nav-item ms-3">
+        <div dropdown class="s5-nav-dropdown dropdown-toggle dropdown" data-toggle="dropdown">
+          <img class="avatar" [src]="getAvatar()">
+          <ul class="dropdown-menu dropdown-menu-force-right" aria-labelledby="simple-dropdown" style="cursor: pointer;">
+            <li role="menuitem"><a class="dropdown-item" [routerLink]="['/client/profile', user.id]">Profile</a></li>
+            <li role="menuitem" *ngIf="user.currentRole.role !== 'Viewer'"><a class="dropdown-item" (click)="chromeExtension()">Chrome Extension</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="releaseNotes()">Release Notes</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="logout()">Logout</a></li>
+            <li *ngIf="isAdmin()" class="divider dropdown-divider"></li>
+            <li *ngIf="isAdmin()" role="menuitem"><span class="dropdown-item text-muted">Admin</span></li>
+            <li *ngIf="isAdmin()" role="menuitem"><a class="dropdown-item" [routerLink]="['/client/templates']" [routerLinkActive]="['is-active']">Templates</a></li>
+            <li *ngIf="isAdmin()" role="menuitem"><a class="dropdown-item" [routerLink]="['/client/tracking']" [routerLinkActive]="['is-active']">Tracking</a></li>
+            <li *ngIf="isAdmin()" role="menuitem"><a class="dropdown-item" [routerLink]="['/client/users']" [routerLinkActive]="['is-active']">Users</a></li>
+            <li *ngIf="isAdmin()" role="menuitem"><a class="dropdown-item" [routerLink]="['/client/settings', user.currentRole.client.id]">{{ user.currentRole.client.name }} Settings</a></li>
+            <li *ngIf="isSuperAdmin()" class="divider dropdown-divider"></li>
+            <li *ngIf="isSuperAdmin()" role="menuitem"><span class="dropdown-item text-muted">Super Admin</span></li>
+            <li *ngIf="isSuperAdmin()" role="menuitem"><a class="dropdown-item" (click)="redirToAdmin()">Manage Clients</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+</nav> -->
+
+<!-- <nav id='navbarTop' *ngIf="isLoaded && user.currentRole.role !== 'Viewer'"  class="navbar navbar-expand-lg h-100 w-100 px-4 d-flex justify-content-between align-items-center">
+</nav> -->
+
+
+
+
 <div class="p-3">
   <div class="d-flex justify-content-end pb-3">
-    <button (click)="pushButton()" class="btn">chart data</button>
-    <button (click)="toggleView()" class="ms-2 btn">toggle</button>
+    <div class="button-holder button-holder__top me-1">
+      <div class="btn" (click)="pushButton()">
+        <i class="fal fa-cog client-nav__icon"></i>
+      </div>
+      <div class="btn" (click)="toggleView()">
+        <i class="fal fa-key client-nav__icon"></i>
+      </div>
+    </div>
   </div>
   <div class="d-flex w-100">
     <div class="w-100 pe-2">

@@ -186,10 +186,16 @@ export class BarchartComponent implements OnInit, AfterViewInit, OnDestroy {
       .attr('class', 'mouse-per-line');
   
     this.mousePerLine.append('line') // create vertical line to follow mouse
+      .attr('class', 'mouse-line-back hover-line')
+      .attr('id', `mouse-line-back-${this.hash}`)
+      .attr('y1', (0 + this.chartOpts.top))
+      .attr('y2', this.height);
+
+    this.mousePerLine.append('line') // create vertical line to follow mouse
       .attr('class', 'mouse-line hover-line')
       .attr('id', `mouse-line-${this.hash}`)
       .attr('y1', (0 + this.chartOpts.top))
-      .attr('y2', this.height + this.chartOpts.bottom);
+      .attr('y2', this.height);
 
 
 
@@ -215,6 +221,14 @@ export class BarchartComponent implements OnInit, AfterViewInit, OnDestroy {
         return (!this.axisState) ? 0 : 1;
       })
       .call(this.xAxis);
+
+    this.chart.select(`#mouse-line-${this.hash}`)
+      .transition().duration(this.chartOpts.dur)
+      .attr('y2', this.height);
+    
+    this.chart.select(`#mouse-line-${this.hash}`)
+      .transition().duration(this.chartOpts.dur)
+      .attr('y2', this.height);
 
     const fatso = this.columns.selectAll(`.column-${this.hash}`)
       .data(this.chartData)
@@ -300,13 +314,14 @@ export class BarchartComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     if (target.left < (windowWidth / 2)) {
-      tipLeft = target.left - cxBox.left + (Math.floor( target.width) / 2);
+      tipLeft = target.left - cxBox.left + (Math.floor( target.width) / 2) + 12;
     } else {
-      tipLeft = target.left - cxBox.left + (Math.floor( target.width) / 2) - widthTip;
+      tipLeft = target.left - cxBox.left + (Math.floor( target.width) / 2) - widthTip - 12;
       klass = 'tooltipRight';
     }
 
-    posTipY = target.top - cxBox.top - heightTip - 12;
+    // posTipY = target.top - cxBox.top - heightTip - 12;
+    posTipY = target.top - cxBox.top;
 
 
 

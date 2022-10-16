@@ -8,6 +8,7 @@
             text {
                 font-family: var(--f-heading);
                 color: var(--grey-3c3c3c);
+                font-size: 12px;
             }
         }
     }
@@ -47,12 +48,19 @@
         display: none;
     }
 
-    .hover-line, .gridZeroLine path {
+    .mouse-line, .gridZeroLine path {
 		fill: none;
 		stroke: var(--grey-3c3c3c);
 		stroke-width: 2px;
 		stroke-dasharray: 2,3;
         pointer-events: none;
+    }
+
+    .mouse-line-back {
+        fill: none;
+        stroke: var(--white);
+        stroke-width: 4px;
+        stroke-opacity: .37;
     }
 
     .csTip { 
@@ -70,10 +78,11 @@
         line-height: var(--font-size-12);
         max-width: 350px;
         color: var(--color);
-        background-color: var(--base);
+        background-color: var(--white);
         border-color: var(--grey-dark);
         // box-shadow: var(--boxShadow);
         visibility: hidden;
+        border-radius: 3px;
     }
 
     .tooltipLeft:after, .tooltipLeft:before, .tooltipRight:after, .tooltipRight:before {
@@ -85,65 +94,96 @@
         position: absolute;
     }
 
-    .tooltipLeft:before {
-        left: -1px;
-        bottom: -11px;
-        border-width: 11px 11px 0 0;
-        border-color: var(--grey-dark) transparent transparent transparent;
-    }
 
-    .tooltipLeft:after {
-        left: 0px;
-        bottom: -9px;
-        border-width: 10px 10px 0 0;
-        border-color: var(--base) transparent transparent transparent;
-    }
-
-    .tooltipRight:before {
-        right: -1px;
-        bottom: -11px;
-        border-width: 0 11px 11px 0;
-        border-color: transparent var(--grey-dark) transparent transparent;
-    }
-
-    .tooltipRight:after {
-        right: 0px;
-        bottom: -9px;
-        border-width: 0 10px 10px 0;
-        border-color: transparent var(--base) transparent transparent;
-    }
-
-    .tipBottom[class~="tooltipRight"] {
-        &:before {
-            right: -1px;
-            top: -11px;
-            border-width: 0 0 11px 11px;
-            border-color: transparent transparent var(--grey-dark) transparent;
-        }
-
+    .tooltipRight {
         &:after {
-            right: 0px;
-            top: -9px;
-            border-width: 0 0 10px 10px;
-            border-color: transparent transparent var(--base) transparent;
+            border-width: 4px 0 4px 8px;
+            border-color: transparent transparent transparent var(--white);
+            left: 100%;
+            top: calc(50% - 4px);
         }
-    }
-
-    .tipBottom[class~="tooltipLeft"] {
         &:before {
-            left: -1px;
-            top: -11px;
-            border-width: 11px 0 0 11px;
+            border-width: 5px 0 5px 10px;
             border-color: transparent transparent transparent var(--grey-dark);
-        }
-
-        &:after {
-            left: 0px;
-            top: -9px;
-            border-width: 10px 0 0 10px;
-            border-color: transparent transparent transparent var(--base);
+            left: 100%;
+            top: calc(50% - 5px);
         }
     }
+
+    .tooltipLeft {
+        &:after {
+            border-width: 4px 8px 4px 0;
+            border-color: transparent var(--white) transparent transparent;    
+            right: 100%;
+            top: calc(50% - 4px);
+        }
+        &:before {
+            border-width: 5px 10px 5px 0;
+            border-color: transparent var(--grey-dark) transparent transparent;    
+            right: 100%;
+            top: calc(50% - 5px);
+        }
+    }
+
+    // .tooltipLeft:before {
+    //     left: -1px;
+    //     bottom: -11px;
+    //     border-width: 11px 11px 0 0;
+    //     border-color: var(--grey-dark) transparent transparent transparent;
+    // }
+
+    // .tooltipLeft:after {
+    //     left: 0px;
+    //     bottom: -9px;
+    //     border-width: 10px 10px 0 0;
+    //     border-color: var(--white) transparent transparent transparent;
+    // }
+
+    // .tooltipRight:before {
+    //     right: -1px;
+    //     bottom: -11px;
+    //     border-width: 0 11px 11px 0;
+    //     border-color: transparent var(--grey-dark) transparent transparent;
+    // }
+
+    // .tooltipRight:after {
+    //     right: 0px;
+    //     bottom: -9px;
+    //     border-width: 0 10px 10px 0;
+    //     border-color: transparent var(--white) transparent transparent;
+    // }
+
+    // .tipBottom[class~="tooltipRight"] {
+    //     &:before {
+    //         right: -1px;
+    //         top: -11px;
+    //         border-width: 0 0 11px 11px;
+    //         border-color: transparent transparent var(--grey-dark) transparent;
+    //     }
+
+    //     &:after {
+    //         right: 0px;
+    //         top: -9px;
+    //         border-width: 0 0 10px 10px;
+    //         border-color: transparent transparent var(--white) transparent;
+    //     }
+    // }
+
+    // .tipBottom[class~="tooltipLeft"] {
+    //     &:before {
+    //         left: -1px;
+    //         top: -11px;
+    //         border-width: 11px 0 0 11px;
+    //         border-color: transparent transparent transparent var(--grey-dark);
+    //     }
+
+    //     &:after {
+    //         left: 0px;
+    //         top: -9px;
+    //         border-width: 10px 0 0 10px;
+    //         border-color: transparent transparent transparent var(--white);
+    //     }
+    // }
 
     .csTip h2 { 
         font-size: var(--font-size-16); 

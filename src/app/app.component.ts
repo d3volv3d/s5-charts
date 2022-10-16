@@ -24,6 +24,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   showAxis: Subject<any> = new Subject();
   axisState = false;
 
+  names = ['Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Sr.', "Allysa Fusco", "Terence Godoy", "Kaylah Wise", "Isai Wingate", "Jaquelin Bair", "Dora Tolbert", "Seamus Sapp", "Jessie Maurer", "Rileigh Shearer", "Rubi Clifford", "Brynn Poston", "Michael Duncan", "Tess Fajardo", "Cailyn Dalton", "Krista Sinclair"]
+
   constructor(
     private uuid: UuidService
   ) { }
@@ -50,7 +52,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   genBarData() {
     this.columnData = [];
     for (let i = 0; i < (8 + Math.floor(Math.random() * 10)); i++) {
-      this.columnData.push({ name: `Index ${i}`, value: Math.floor(Math.random() * 5000) });
+      this.columnData.push({ name: `${this.names[i]}`, value: Math.floor(Math.random() * 5000) });
     }
     this.barData.next(this.columnData);
   }
