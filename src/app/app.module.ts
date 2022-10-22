@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BarchartComponent } from './barchart/barchart.component';
 import { ColumnchartComponent } from './columnchart/columnchart.component';
+import { PiechartComponent } from './piechart/piechart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BarchartComponent,
-    ColumnchartComponent
+    ColumnchartComponent,
+    PiechartComponent
   ],
   imports: [
     BrowserModule,

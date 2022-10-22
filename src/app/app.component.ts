@@ -22,16 +22,21 @@ export class AppComponent implements OnInit, AfterViewInit {
   barData: Array<object> = [];
   bar2Data: Array<object> = [];
 
+  pieData: Array<object> = [];
+  pie2Data: Array<object> = [];
+
   chartData: Subject<any> = new Subject();
   chart2Data: Subject<any> = new Subject();
   chart3Data: Subject<any> = new Subject();
   chart4Data: Subject<any> = new Subject();
+  pieDataOut: Subject<any> = new Subject();
+  pieData2Out: Subject<any> = new Subject();
 
   showAxis: Subject<any> = new Subject();
   axisState = false;
 
   names = ['Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Sr.', "Allysa Fusco", "Terence Godoy", "Kaylah Wise", "Isai Wingate", "Jaquelin Bair", "Dora Tolbert", "Seamus Sapp", "Jessie Maurer", "Rileigh Shearer", "Rubi Clifford", "Brynn Poston", "Michael Duncan", "Tess Fajardo", "Cailyn Dalton", "Krista Sinclair"]
-
+  fruits = ['Açaí', 'Acerola', 'Akebi', 'Ackee', 'American Mayapple', 'Apple', 'Apricot', 'Araza', 'Avocado', 'Banana', 'Bilberry', 'Blackberry'];
   constructor(
     private uuid: UuidService
   ) { }
@@ -50,11 +55,33 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.genBar2Data();
     this.genColData();
     this.genCol2Data();
+    this.genPieData();
+    this.genPie2Data();
   }
 
   toggleView() {
     this.axisState = !this.axisState;
     this.showAxis.next(this.axisState);
+  }
+
+  genPieData() {
+    this.pieData = [];
+    const howMany = Math.floor(Math.random() * 9) + 1;
+    for (let i = 0; i < howMany + 1; i++) {
+      this.pieData.push({ name: `${this.fruits[i]}`, value: Math.floor(Math.random() * 5000) + 1 })
+    }
+    this.pieDataOut.next(this.pieData);
+    
+  }
+
+  genPie2Data() {
+    this.pie2Data = [];
+    const howMany = Math.floor(Math.random() * 9) + 1;
+    for (let i = 0; i < howMany + 1; i++) {
+      this.pie2Data.push({ name: `${this.fruits[i]}`, value: Math.floor(Math.random() * 5000) + 1 })
+    }
+    this.pieData2Out.next(this.pie2Data);
+    
   }
 
   genColData() {

@@ -1,0 +1,16 @@
+<div class="w-100 piechart-holder position-relative d-flex justify-content-center">
+    <div class="d-flex align-items-center">
+        <div class="position-relative mommy">
+            <svg [id]="thisID"></svg>
+            <div class="pieChartInner" [id]="thisTip"></div>
+        </div>
+        <div class="pb-1 keyState">
+            <ng-container *ngFor="let key of keyText">
+                <div class="keyText pt-1 ps-3 d-flex align-items-center">
+                    <i class="fas fa-circle pe-1" [style.color]="key.color"></i> {{ key.name }}
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+</div>
